@@ -93,8 +93,10 @@ public class MenuPrincipal {
         System.out.print("Imagen del inventario: ");
         String image = scanner.nextLine();
 
-        // Asumimos que el primer usuario (puedes cambiar esta lógica según tus necesidades)
-        User user = User.listarUsuarios().isEmpty() ? null : User.listarUsuarios().get(0);
+        System.out.println("Digite el Id del usuario que poseerá este inventario: ");
+        listarUsuarios();
+        int usuarioElegido = scanner.nextInt();
+        User user = User.listarUsuarios().isEmpty() ? null : User.listarUsuarios().get(usuarioElegido - 1);
 
         Inventory inventory = new Inventory(Inventory.listarInventarios().size() + 1, name, description, image, true, user);
         Inventory.crearInventario(inventory);
@@ -122,7 +124,7 @@ public class MenuPrincipal {
         String image = scanner.nextLine();
         System.out.print("Precio: ");
         Integer price = scanner.nextInt();
-        scanner.nextLine();  // Consumir salto de línea
+        scanner.nextLine();
 
         System.out.print("Categoría (nombre): ");
         String categoryName = scanner.nextLine();

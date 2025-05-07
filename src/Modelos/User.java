@@ -8,6 +8,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private List<Inventory> inventories;
 
     // Lista estática para guardar los usuarios
     private static List<User> usuarios = new ArrayList<>();
