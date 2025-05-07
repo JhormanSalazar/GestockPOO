@@ -3,7 +3,7 @@ package Modelos;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class MenuPrincipal {
+public class MenuPrincipal {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
