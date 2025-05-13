@@ -1,6 +1,6 @@
 package Modelos.Products;
 
-import Modelos.Category;
+import Modelos.Category.Category;
 
 public class Product {
     private Integer productId;

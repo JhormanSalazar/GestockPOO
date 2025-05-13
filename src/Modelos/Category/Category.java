@@ -1,4 +1,4 @@
-package Modelos;
+package Modelos.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,5 +77,8 @@ public class Category {
 
     public static void eliminarCategoria(Integer id) {
         categorias.removeIf(category -> category.getCategoryId().equals(id));
+    }
+
+    public static class CategoryServices {
     }
 }

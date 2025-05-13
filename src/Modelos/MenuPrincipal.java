@@ -1,5 +1,7 @@
 package Modelos;
 
+import Modelos.Category.Category;
+import Modelos.Category.CategoryServices;
 import Modelos.Inventory.Inventory;
 import Modelos.Inventory.InventoryServices;
 import Modelos.Products.Product;
@@ -16,6 +18,7 @@ public class MenuPrincipal {
     private static final UserServices userServices = new UserServices();
     private static final InventoryServices inventoryServices = new InventoryServices();
     private static final ProductServices productServices = new ProductServices();
+    private static final CategoryServices categoryServices = new CategoryServices();
 
     public static void main(String[] args) {
         int opcion;
@@ -79,10 +82,7 @@ public class MenuPrincipal {
         System.out.print("Contraseña: ");
         String password = scanner.nextLine();
 
-        // Obtenemos un nuevo ID secuencial
-        int ID = userServices.listar().size() + 1;
-
-        User user = new User(ID, name, email, password);
+        User user = new User(userServices.listar().size() + 1, name, email, password);
 
         userServices.crear(user);
         System.out.println("Usuario creado exitosamente.");
@@ -101,21 +101,24 @@ public class MenuPrincipal {
     }
 
     public static void crearInventario() {
+        List<User> usuarios = userServices.listar();
         System.out.print("Nombre del inventario: ");
         String name = scanner.nextLine();
         System.out.print("Descripción: ");
         String description = scanner.nextLine();
         System.out.print("Imagen del inventario: ");
         String image = scanner.nextLine();
+        if (usuarios.isEmpty()) {
+            System.out.println("Como no hay usuarios registrados deberá registrar al menos una a continuación: ");
+            crearUsuario();
+        }
+        System.out.println("Digite el id del usuario al que se asociará este inventario: ");
+        listarUsuarios();
+        int userSelectedId = scanner.nextInt();
+        scanner.nextLine();
+        User user = usuarios.get(userSelectedId - 1);
 
-        // Asumimos que el primer usuario
-        List<User> usuarios = userServices.listar();
-        User user = usuarios.isEmpty() ? null : usuarios.get(0);
-
-        List<Inventory> inventarios = inventoryServices.listar();
-        int nuevoId = inventarios.size() + 1;
-
-        Inventory inventory = new Inventory(nuevoId, name, description, image, true, user);
+        Inventory inventory = new Inventory(inventoryServices.listar().size() + 1, name, description, image, true, user);
         inventoryServices.crear(inventory);
         System.out.println("Inventario creado exitosamente.");
     }
@@ -133,6 +136,7 @@ public class MenuPrincipal {
     }
 
     public static void crearProducto() {
+        List<Category> categories = categoryServices.listar();
         System.out.print("Nombre del producto: ");
         String name = scanner.nextLine();
         System.out.print("Descripción: ");
@@ -143,17 +147,17 @@ public class MenuPrincipal {
         Integer price = scanner.nextInt();
         scanner.nextLine();
 
-        //TODO
-        System.out.print("Categoría (nombre): ");
-        String categoryName = scanner.nextLine();
-        Category category = new Category(Category.listarCategorias().size() + 1, categoryName, "Descripción de la categoría", true);
-        Category.crearCategoria(category);
-        //
+        if (categories.isEmpty()) {
+            System.out.println("Como no hay categorias registradas deberá registrar al menos una a continuación: ");
+            crearCategoria();
+        }
 
-        List<Product> products = productServices.listar();
-        int nuevoId = products.size() + 1;
-
-        Product product = new Product(nuevoId, name, description, image, price, category);
+        System.out.println("Digite el Id de la categoría a la que pertenece el producto: ");
+        listarCategorias();
+        int selectedCategoryId = scanner.nextInt();
+        scanner.nextLine();
+        Category category = categories.get(selectedCategoryId - 1);
+        Product product = new Product(productServices.listar().size() + 1, name, description, image, price, category);
         productServices.crear(product);
         System.out.println("Producto creado exitosamente.");
     }
@@ -176,13 +180,13 @@ public class MenuPrincipal {
         System.out.print("Descripción: ");
         String description = scanner.nextLine();
 
-        Category category = new Category(Category.listarCategorias().size() + 1, name, description, true);
-        Category.crearCategoria(category);
+        Category category = new Category(categoryServices.listar().size() + 1, name, description, true);
+        categoryServices.crear(category);
         System.out.println("Categoría creada exitosamente.");
     }
 
     public static void listarCategorias() {
-        List<Category> categorias = Category.listarCategorias();
+        List<Category> categorias = categoryServices.listar();
         if (categorias.isEmpty()) {
             System.out.println("No hay categorías registradas.");
         } else {
