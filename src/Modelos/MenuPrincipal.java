@@ -2,6 +2,8 @@ package Modelos;
 
 import Modelos.Inventory.Inventory;
 import Modelos.Inventory.InventoryServices;
+import Modelos.Products.Product;
+import Modelos.Products.ProductServices;
 import Modelos.Users.User;
 import Modelos.Users.UserServices;
 
@@ -13,6 +15,7 @@ public class MenuPrincipal {
     private static Scanner scanner = new Scanner(System.in);
     private static final UserServices userServices = new UserServices();
     private static final InventoryServices inventoryServices = new InventoryServices();
+    private static final ProductServices productServices = new ProductServices();
 
     public static void main(String[] args) {
         int opcion;
@@ -124,7 +127,7 @@ public class MenuPrincipal {
         } else {
             System.out.println("Inventarios registrados:");
             for (Inventory inventory : inventarios) {
-                System.out.println("ID: " + inventory.getInventoryId() + ", Nombre: " + inventory.getName() + ", Usuario: " + (inventory.getUser() != null ? inventory.getUser().getName() : "Ninguno"));
+                System.out.println("ID: " + inventory.getInventoryId() + ", Nombre: " + inventory.getName() + ", Descripcion: " + inventory.getDescription() + ", Usuario: " + (inventory.getUser() != null ? inventory.getUser().getName() : "Ninguno"));
             }
         }
     }
@@ -138,26 +141,31 @@ public class MenuPrincipal {
         String image = scanner.nextLine();
         System.out.print("Precio: ");
         Integer price = scanner.nextInt();
-        scanner.nextLine();  // Consumir salto de línea
+        scanner.nextLine();
 
+        //TODO
         System.out.print("Categoría (nombre): ");
         String categoryName = scanner.nextLine();
         Category category = new Category(Category.listarCategorias().size() + 1, categoryName, "Descripción de la categoría", true);
         Category.crearCategoria(category);
+        //
 
-        Product product = new Product(Product.listarProductos().size() + 1, name, description, image, price, category);
-        Product.crearProducto(product);
+        List<Product> products = productServices.listar();
+        int nuevoId = products.size() + 1;
+
+        Product product = new Product(nuevoId, name, description, image, price, category);
+        productServices.crear(product);
         System.out.println("Producto creado exitosamente.");
     }
 
     public static void listarProductos() {
-        List<Product> productos = Product.listarProductos();
+        List<Product> productos = productServices.listar();
         if (productos.isEmpty()) {
             System.out.println("No hay productos registrados.");
         } else {
             System.out.println("Productos registrados:");
             for (Product product : productos) {
-                System.out.println("ID: " + product.getProductId() + ", Nombre: " + product.getName() + ", Precio: " + product.getPrice() + ", Categoría: " + product.getCategory().getName());
+                System.out.println("ID: " + product.getProductId() + ", Nombre: " + product.getName() + ", Descripción: " + product.getDescription() + ", Precio: " + product.getPrice() + ", Categoría: " + product.getCategory().getName());
             }
         }
     }

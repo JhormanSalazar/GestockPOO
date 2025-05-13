@@ -1,7 +1,6 @@
-package Modelos;
+package Modelos.Products;
 
-import java.util.ArrayList;
-import java.util.List;
+import Modelos.Category;
 
 public class Product {
     private Integer productId;
@@ -10,9 +9,6 @@ public class Product {
     private String productImage;
     private Integer price;
     private Category category; // Asociación con Category
-
-    // Lista estática para guardar los productos
-    private static List<Product> productos = new ArrayList<>();
 
     // Constructor vacío
     public Product() {}
@@ -76,26 +72,4 @@ public class Product {
         this.category = category;
     }
 
-    // Métodos CRUD estáticos
-
-    public static void crearProducto(Product product) {
-        productos.add(product);
-    }
-
-    public static List<Product> listarProductos() {
-        return productos;
-    }
-
-    public static Product buscarProductoPorId(Integer id) {
-        for (Product product : productos) {
-            if (product.getProductId().equals(id)) {
-                return product;
-            }
-        }
-        return null;
-    }
-
-    public static void eliminarProducto(Integer id) {
-        productos.removeIf(product -> product.getProductId().equals(id));
-    }
 }
