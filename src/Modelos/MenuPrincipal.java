@@ -1,10 +1,18 @@
 package Modelos;
 
+import Modelos.Inventory.Inventory;
+import Modelos.Inventory.InventoryServices;
+import Modelos.Users.User;
+import Modelos.Users.UserServices;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class MenuPrincipal {
+
     private static Scanner scanner = new Scanner(System.in);
+    private static final UserServices userServices = new UserServices();
+    private static final InventoryServices inventoryServices = new InventoryServices();
 
     public static void main(String[] args) {
         int opcion;
@@ -68,13 +76,17 @@ public class MenuPrincipal {
         System.out.print("Contraseña: ");
         String password = scanner.nextLine();
 
-        User user = new User(User.listarUsuarios().size() + 1, name, email, password);  // Asignamos ID secuencial
-        User.crearUsuario(user);
+        // Obtenemos un nuevo ID secuencial
+        int ID = userServices.listar().size() + 1;
+
+        User user = new User(ID, name, email, password);
+
+        userServices.crear(user);
         System.out.println("Usuario creado exitosamente.");
     }
 
     public static void listarUsuarios() {
-        List<User> usuarios = User.listarUsuarios();
+        List<User> usuarios = userServices.listar();
         if (usuarios.isEmpty()) {
             System.out.println("No hay usuarios registrados.");
         } else {
@@ -93,16 +105,20 @@ public class MenuPrincipal {
         System.out.print("Imagen del inventario: ");
         String image = scanner.nextLine();
 
-        // Asumimos que el primer usuario (puedes cambiar esta lógica según tus necesidades)
-        User user = User.listarUsuarios().isEmpty() ? null : User.listarUsuarios().get(0);
+        // Asumimos que el primer usuario
+        List<User> usuarios = userServices.listar();
+        User user = usuarios.isEmpty() ? null : usuarios.get(0);
 
-        Inventory inventory = new Inventory(Inventory.listarInventarios().size() + 1, name, description, image, true, user);
-        Inventory.crearInventario(inventory);
+        List<Inventory> inventarios = inventoryServices.listar();
+        int nuevoId = inventarios.size() + 1;
+
+        Inventory inventory = new Inventory(nuevoId, name, description, image, true, user);
+        inventoryServices.crear(inventory);
         System.out.println("Inventario creado exitosamente.");
     }
 
     public static void listarInventarios() {
-        List<Inventory> inventarios = Inventory.listarInventarios();
+        List<Inventory> inventarios = inventoryServices.listar();
         if (inventarios.isEmpty()) {
             System.out.println("No hay inventarios registrados.");
         } else {

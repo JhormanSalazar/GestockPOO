@@ -1,18 +1,17 @@
-package Modelos;
+package Modelos.Inventory;
 
-import java.util.ArrayList;
+import Modelos.Users.User;
+
 import java.util.List;
 
 public class Inventory {
+
     private Integer inventoryId;
     private String name;
     private String description;
     private String inventoryImage;
     private Boolean isActive;
     private User user; // Asociación con User
-
-    // Lista estática para guardar los inventarios
-    private static List<Inventory> inventarios = new ArrayList<>();
 
     // Constructor vacío
     public Inventory() {}
@@ -76,26 +75,4 @@ public class Inventory {
         this.user = user;
     }
 
-    // Métodos CRUD estáticos
-
-    public static void crearInventario(Inventory inventory) {
-        inventarios.add(inventory);
-    }
-
-    public static List<Inventory> listarInventarios() {
-        return inventarios;
-    }
-
-    public static Inventory buscarInventarioPorId(Integer id) {
-        for (Inventory inventory : inventarios) {
-            if (inventory.getInventoryId().equals(id)) {
-                return inventory;
-            }
-        }
-        return null;
-    }
-
-    public static void eliminarInventario(Integer id) {
-        inventarios.removeIf(inventory -> inventory.getInventoryId().equals(id));
-    }
 }
