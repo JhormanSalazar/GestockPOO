@@ -1,53 +1,52 @@
 package Modelos.Users;
 
-public class User {
-    private Integer userId;
-    private String name;
+import Modelos.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class User extends BaseEntity {
     private String email;
     private String password;
 
-    // Constructor vacío
-    public User() {}
+    public User() {
+    }
 
-    // Constructor con parámetros
-    public User(Integer userId, String name, String email, String password) {
-        this.userId = userId;
-        this.name = name;
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    // Getters y Setters
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+    public User(Integer id, String name, String description, Boolean availability, String email, String password) {
+        super(id, name, description, availability);
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
     }
 
+    private static List<User> usuarios = new ArrayList<>();
+
+    @Override
+    public void crear(User user) {
+        usuarios.add(user);
+    }
+
+    @Override
+    public List<User> listar() {
+        return usuarios;
+    }
+
+    @Override
+    public User buscarPorId(Integer id) {
+        for (User user : usuarios) {
+            if (user.getUserId().equals(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void eliminar(Integer id) {
+        usuarios.removeIf(user -> user.getUserId().equals(id));
+    }
 }
