@@ -1,84 +1,67 @@
 package Modelos.Categories;
 
+import Modelos.BaseEntity;
+import Modelos.Products.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
-    private Integer categoryId;
-    private String name;
-    private String description;
-    private Boolean availability;
+public class Category extends BaseEntity<Category> {
 
-    // Lista estática para guardar las categorías
-    private static List<Category> categorias = new ArrayList<>();
+    private List<Product> products;
 
-    // Constructor vacío
-    public Category() {}
-
-    // Constructor con parámetros
-    public Category(Integer categoryId, String name, String description, Boolean availability) {
-        this.categoryId = categoryId;
-        this.name = name;
-        this.description = description;
-        this.availability = availability;
+    public Category() {
     }
 
-    // Getters y Setters
-    public Integer getCategoryId() {
-        return categoryId;
+    public Category(Integer id, String name, String description, Boolean availability, List<Product> products) {
+        super(id, name, description, availability);
+        this.products = products;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    private static List<Category> categories = new ArrayList<>();
+
+    @Override
+    public void crear(Category category) {
+        categories.add(category);
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public List<Category> listar() {
+        return categories;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getAvailability() {
-        return availability;
-    }
-
-    public void setAvailability(Boolean availability) {
-        this.availability = availability;
-    }
-
-    // Métodos CRUD estáticos
-
-    public static void crearCategoria(Category category) {
-        categorias.add(category);
-    }
-
-    public static List<Category> listarCategorias() {
-        return categorias;
-    }
-
-    public static Category buscarCategoriaPorId(Integer id) {
-        for (Category category : categorias) {
-            if (category.getCategoryId().equals(id)) {
+    @Override
+    public Category buscarPorId(Integer id) {
+        for (Category category : categories) {
+            if (category.getId().equals(id)) {
                 return category;
             }
         }
         return null;
     }
 
-    public static void eliminarCategoria(Integer id) {
-        categorias.removeIf(category -> category.getCategoryId().equals(id));
+    public void eliminar(Integer id) {
+        categories.removeIf(category -> category.getId().equals(id));
     }
 
-    public static class CategoryServices {
+    public List<Product> listarProductos () {
+        return products;
+    }
+
+    //Getters and Setters
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public static List<Category> getCategories() {
+        return categories;
+    }
+
+    public static void setCategories(List<Category> categories) {
+        Category.categories = categories;
     }
 }

@@ -1,7 +1,5 @@
 package Modelos;
 
-import java.util.List;
-
 public abstract class BaseEntity<T> implements CRUD<T>{
     private Integer id;
     private String name;

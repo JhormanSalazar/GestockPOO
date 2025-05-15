@@ -1,54 +1,56 @@
 package Modelos.Products;
 
+import Modelos.BaseEntity;
 import Modelos.Categories.Category;
 
-public class Product {
-    private Integer productId;
-    private String name;
-    private String description;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Product extends BaseEntity<Product>{
+
     private String productImage;
-    private Integer price;
+    private Double price;
     private Integer productStock;
-    private Category category; // Asociación con Category
+    private Category category;
 
-    // Constructor vacío
-    public Product() {}
+    public Product() {
+    }
 
-    // Constructor con parámetros
-    public Product(Integer productId, String name, String description, String productImage, Integer price, Category category) {
-        this.productId = productId;
-        this.name = name;
-        this.description = description;
+    public Product(Integer id, String name, String description, Boolean availability, String productImage, Double price, Integer productStock, Category category) {
+        super(id, name, description, availability);
         this.productImage = productImage;
         this.price = price;
+        this.productStock = productStock;
         this.category = category;
     }
 
+    private static List<Product> productos = new ArrayList<>();
+
+    @Override
+    public void crear(Product product) {
+        productos.add(product);
+    }
+
+    @Override
+    public List<Product> listar() {
+        return productos;
+    }
+
+    @Override
+    public Product buscarPorId(Integer id) {
+        for (Product product : productos) {
+            if (product.getId().equals(id)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public void eliminar(Integer id) {
+        productos.removeIf(product -> product.getId().equals(id));
+    }
+
     // Getters y Setters
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getProductImage() {
         return productImage;
     }
@@ -57,12 +59,20 @@ public class Product {
         this.productImage = productImage;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getProductStock() {
+        return productStock;
+    }
+
+    public void setProductStock(Integer productStock) {
+        this.productStock = productStock;
     }
 
     public Category getCategory() {
@@ -72,5 +82,4 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
-
 }
