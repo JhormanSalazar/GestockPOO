@@ -5,7 +5,7 @@ import Modelos.BaseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends BaseEntity {
+public class User extends BaseEntity<User> {
     private String email;
     private String password;
 
@@ -38,7 +38,7 @@ public class User extends BaseEntity {
     @Override
     public User buscarPorId(Integer id) {
         for (User user : usuarios) {
-            if (user.getUserId().equals(id)) {
+            if (user.getId().equals(id)) {
                 return user;
             }
         }
@@ -47,6 +47,6 @@ public class User extends BaseEntity {
 
     @Override
     public void eliminar(Integer id) {
-        usuarios.removeIf(user -> user.getUserId().equals(id));
+        usuarios.removeIf(user -> user.getId().equals(id));
     }
 }
