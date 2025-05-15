@@ -1,4 +1,4 @@
-package Modelos.Category;
+package Modelos.Categories;
 
 import Modelos.CRUD;
 import java.util.ArrayList;

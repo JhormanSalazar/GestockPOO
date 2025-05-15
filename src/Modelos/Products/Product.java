@@ -1,6 +1,6 @@
 package Modelos.Products;
 
-import Modelos.Category.Category;
+import Modelos.Categories.Category;
 
 public class Product {
     private Integer productId;
@@ -8,6 +8,7 @@ public class Product {
     private String description;
     private String productImage;
     private Integer price;
+    private Integer productStock;
     private Category category; // Asociación con Category
 
     // Constructor vacío

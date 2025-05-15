@@ -1,4 +1,4 @@
-package Modelos.Category;
+package Modelos.Categories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ public class Category {
     private Integer categoryId;
     private String name;
     private String description;
-    private Boolean isActive;
+    private Boolean availability;
 
     // Lista estática para guardar las categorías
     private static List<Category> categorias = new ArrayList<>();
@@ -16,11 +16,11 @@ public class Category {
     public Category() {}
 
     // Constructor con parámetros
-    public Category(Integer categoryId, String name, String description, Boolean isActive) {
+    public Category(Integer categoryId, String name, String description, Boolean availability) {
         this.categoryId = categoryId;
         this.name = name;
         this.description = description;
-        this.isActive = isActive;
+        this.availability = availability;
     }
 
     // Getters y Setters
@@ -48,12 +48,12 @@ public class Category {
         this.description = description;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
+    public Boolean getAvailability() {
+        return availability;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setAvailability(Boolean availability) {
+        this.availability = availability;
     }
 
     // Métodos CRUD estáticos
