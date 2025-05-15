@@ -16,8 +16,8 @@ public class Product extends BaseEntity<Product>{
     public Product() {
     }
 
-    public Product(Integer id, String name, String description, Boolean availability, String productImage, Double price, Integer productStock, Category category) {
-        super(id, name, description, availability);
+    public Product(Integer id, String name, String description, String productImage, Double price, Integer productStock, Category category) {
+        super(id, name, description);
         this.productImage = productImage;
         this.price = price;
         this.productStock = productStock;

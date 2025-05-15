@@ -1,22 +1,19 @@
 package Modelos;
 
-//import Modelos.Inventory.Inventory;
-//import Modelos.Inventory.InventoryServices;
+import Modelos.Categories.Category;
 import Modelos.Products.Product;
 import Modelos.Users.User;
-import Modelos.Categories.Category;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class MenuPrincipal {
+public class MainMenu {
+    private static final User user = new User();
+    private static final Product product = new Product();
+    private static final Category category = new Category();
+    static Scanner scanner = new Scanner(System.in);
 
-    private static Scanner scanner = new Scanner(System.in);
-    private static final UserServices userServices = new UserServices();
-//    private static final InventoryServices inventoryServices = new InventoryServices();
-    private static final ProductServices productServices = new ProductServices();
-
-    public static void main(String[] args) {
+    public static void iniciarMenu() {
         int opcion;
         do {
             mostrarMenu();
@@ -30,24 +27,18 @@ public class MenuPrincipal {
                     listarUsuarios();
                     break;
                 case 3:
-//                    crearInventario();
-                    break;
-                case 4:
-//                    listarInventarios();
-                    break;
-                case 5:
                     crearProducto();
                     break;
-                case 6:
+                case 4:
                     listarProductos();
                     break;
-                case 7:
+                case 5:
                     crearCategoria();
                     break;
-                case 8:
+                case 6:
                     listarCategorias();
                     break;
-                case 9:
+                case 7:
                     System.out.println("¡Hasta luego!");
                     break;
                 default:
@@ -60,13 +51,11 @@ public class MenuPrincipal {
         System.out.println("Menú Principal:");
         System.out.println("1. Crear usuario");
         System.out.println("2. Listar usuarios");
-        System.out.println("3. Crear inventario");
-        System.out.println("4. Listar inventarios");
-        System.out.println("5. Crear producto");
-        System.out.println("6. Listar productos");
-        System.out.println("7. Crear categoría");
-        System.out.println("8. Listar categorías");
-        System.out.println("9. Salir");
+        System.out.println("3. Crear producto");
+        System.out.println("4. Listar productos");
+        System.out.println("5. Crear categoría");
+        System.out.println("6. Listar categorías");
+        System.out.println("7. Salir");
         System.out.print("Seleccione una opción: ");
     }
 
@@ -79,58 +68,26 @@ public class MenuPrincipal {
         String password = scanner.nextLine();
 
         // Obtenemos un nuevo ID secuencial
-        int ID = userServices.listar().size() + 1;
+        int ID = user.listar().size() + 1;
 
         User user = new User(ID, name, email, password);
 
-        userServices.crear(user);
+        user.crear(user);
         System.out.println("Usuario creado exitosamente.");
     }
 
     public static void listarUsuarios() {
-        List<User> usuarios = userServices.listar();
+        List<User> usuarios = user.listar();
         if (usuarios.isEmpty()) {
             System.out.println("No hay usuarios registrados.");
         } else {
             System.out.println("Usuarios registrados:");
             for (User user : usuarios) {
-                System.out.println("ID: " + user.getUserId() + ", Nombre: " + user.getName() + ", Email: " + user.getEmail());
+                System.out.println("ID: " + user.getId() + ", Nombre: " + user.getName() + ", Email: " + user.getEmail());
             }
         }
     }
 
-    /* public static void crearInventario() {
-        System.out.print("Nombre del inventario: ");
-        String name = scanner.nextLine();
-        System.out.print("Descripción: ");
-        String description = scanner.nextLine();
-        System.out.print("Imagen del inventario: ");
-        String image = scanner.nextLine();
-
-        // Asumimos que el primer usuario
-        List<User> usuarios = userServices.listar();
-        User user = usuarios.isEmpty() ? null : usuarios.get(0);
-
-        List<Inventory> inventarios = inventoryServices.listar();
-        int nuevoId = inventarios.size() + 1;
-
-        Inventory inventory = new Inventory(nuevoId, name, description, image, true, user);
-        inventoryServices.crear(inventory);
-        System.out.println("Inventario creado exitosamente.");
-    }
-
-    public static void listarInventarios() {
-        List<Inventory> inventarios = inventoryServices.listar();
-        if (inventarios.isEmpty()) {
-            System.out.println("No hay inventarios registrados.");
-        } else {
-            System.out.println("Inventarios registrados:");
-            for (Inventory inventory : inventarios) {
-                System.out.println("ID: " + inventory.getInventoryId() + ", Nombre: " + inventory.getName() + ", Descripcion: " + inventory.getDescription() + ", Usuario: " + (inventory.getUser() != null ? inventory.getUser().getName() : "Ninguno"));
-            }
-        }
-    }
-    */
     public static void crearProducto() {
         System.out.print("Nombre del producto: ");
         String name = scanner.nextLine();
@@ -139,20 +96,25 @@ public class MenuPrincipal {
         System.out.print("Imagen del producto: ");
         String image = scanner.nextLine();
         System.out.print("Precio: ");
-        Integer price = scanner.nextInt();
+        Double price = scanner.nextDouble();
+        System.out.println("Cuanta cantidad del producto tiene actualmente");
+        // TODO almacenar el producto en una categoria
         scanner.nextLine();
 
         //TODO
         System.out.print("Categoría (nombre): ");
         String categoryName = scanner.nextLine();
-        Category category = new Category(Category.listarCategorias().size() + 1, categoryName, "Descripción de la categoría", true);
-        Category.crearCategoria(category);
+
+        Integer id = category.listar().size() + 1;
+
+        Category category = new Category(id, categoryName, "Descripción de la categoría");
+        category.crear(category);
         //
 
-        List<Product> products = productServices.listar();
+        List<Product> products = product.listar();
         int nuevoId = products.size() + 1;
 
-        Product product = new Product(nuevoId, name, description, image, price, category);
+        Product product = new Product(nuevoId, name, description, image, price, stock, category);
         productServices.crear(product);
         System.out.println("Producto creado exitosamente.");
     }
@@ -175,19 +137,21 @@ public class MenuPrincipal {
         System.out.print("Descripción: ");
         String description = scanner.nextLine();
 
-        Category category = new Category(Category.listarCategorias().size() + 1, name, description, true);
+        Integer id = category.listar().size() + 1;
+
+        Category category = new Category(id, name, description);
         Category.crearCategoria(category);
         System.out.println("Categoría creada exitosamente.");
     }
 
     public static void listarCategorias() {
-        List<Category> categorias = Category.listarCategorias();
+        List<Category> categorias = category.listar();
         if (categorias.isEmpty()) {
             System.out.println("No hay categorías registradas.");
         } else {
             System.out.println("Categorías registradas:");
             for (Category category : categorias) {
-                System.out.println("ID: " + category.getCategoryId() + ", Nombre: " + category.getName() + ", Descripción: " + category.getDescription());
+                System.out.println("ID: " + category.getId() + ", Nombre: " + category.getName() + ", Descripción: " + category.getDescription());
             }
         }
     }

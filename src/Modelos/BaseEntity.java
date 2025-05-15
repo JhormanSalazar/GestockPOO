@@ -4,13 +4,13 @@ public abstract class BaseEntity<T> implements CRUD<T>{
     private Integer id;
     private String name;
     private String description;
-    private Boolean availability;
+    private Boolean availability = true;
 
     public BaseEntity() {
 
     }
 
-    public BaseEntity(Integer id, String name, String description, Boolean availability) {
+    public BaseEntity(Integer id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

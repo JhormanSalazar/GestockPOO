@@ -13,12 +13,14 @@ public class Category extends BaseEntity<Category> {
     public Category() {
     }
 
-    public Category(Integer id, String name, String description, Boolean availability, List<Product> products) {
-        super(id, name, description, availability);
+    public Category(Integer id, String name, String description) {
+        super(id, name, description);
         this.products = products;
     }
 
     private static List<Category> categories = new ArrayList<>();
+
+    // TODO alacenar producto en categoria
 
     @Override
     public void crear(Category category) {
