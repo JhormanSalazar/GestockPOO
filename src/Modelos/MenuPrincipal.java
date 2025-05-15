@@ -2,7 +2,6 @@ package Modelos;
 
 import Modelos.Category.Category;
 import Modelos.Category.CategoryServices;
-import Modelos.Inventory.Inventory;
 import Modelos.Inventory.InventoryServices;
 import Modelos.Products.Product;
 import Modelos.Products.ProductServices;
@@ -16,7 +15,6 @@ public class MenuPrincipal {
 
     private static Scanner scanner = new Scanner(System.in);
     private static final UserServices userServices = new UserServices();
-    private static final InventoryServices inventoryServices = new InventoryServices();
     private static final ProductServices productServices = new ProductServices();
     private static final CategoryServices categoryServices = new CategoryServices();
 
