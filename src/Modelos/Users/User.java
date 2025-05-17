@@ -20,7 +20,7 @@ public class User extends BaseEntity<User> {
     }
 
     public User(Integer id, String name, String email, String password) {
-        super(id, name, null, null);
+        super(id, name, null);
         this.email = email;
         this.password = password;
     }

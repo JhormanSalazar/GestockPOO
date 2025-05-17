@@ -13,9 +13,9 @@ public class Category extends BaseEntity<Category> {
     public Category() {
     }
 
-    public Category(Integer id, String name, String description) {
-        super(id, name, description);
-        this.products = products;
+    public Category(Integer id, String name, String desc) {
+        super(id, name, desc);
+        this.products = new ArrayList<>();
     }
 
     private static List<Category> categories = new ArrayList<>();
@@ -55,8 +55,12 @@ public class Category extends BaseEntity<Category> {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void addProudctToCategory(Integer id, Product product) {
+        for (Category c : categories){
+            if(c.getId().equals(id)){
+                c.products.add(product);
+            }
+        }
     }
 
     public static List<Category> getCategories() {
